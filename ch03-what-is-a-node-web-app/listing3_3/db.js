@@ -2,6 +2,8 @@ const sqlite3 = require('sqlite3').verbose();
 const dbName = 'later.sqlite';
 const db = new sqlite3.Database(dbName);
 
+// 连接到一个数据库文件
+// 如果还没有，创建一个“ articles”表
 db.serialize(() => {
 const sql = `
   CREATE TABLE IF NOT EXISTS articles
@@ -11,10 +13,12 @@ const sql = `
 });
 
 class Article { 
+  // 获取所有文章
   static all(cb) {
     db.all('SELECT * FROM articles', cb);
   }
 
+  // 选择一篇指定的文章
   static find(id, cb) {
     db.get('SELECT * FROM articles WHERE id = ?', id, cb);
   }
